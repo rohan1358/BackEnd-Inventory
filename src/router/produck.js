@@ -12,9 +12,15 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-Router.get("/list", PController.getProduk).post(
-  "/insert",
-  upload.single("foto_product"),
-  PController.insertProduct
-);
+Router.get("/list", PController.getProduk)
+  .post("/insert", upload.single("image"), PController.insertProduct)
+  .post("/insert/image", upload.array("image", 12), PController.insertImage)
+  .patch("/update/:id_produk", PController.UProduk)
+  .delete("/delete/:id_produk", PController.deleteProduk)
+  .patch(
+    "/update/image/:id_produk",
+    upload.array("image", 12),
+    PController.UImage
+  );
+
 module.exports = Router;
